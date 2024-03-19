@@ -1,24 +1,39 @@
 import ctrlWrapper from "../decorators/ctrlWrapper.js"
-import contactsService from "../services/contactsServices.js"
+import HttpError from "../helpers/HttpError.js"
+import contactsServices from "../services/contactsServices.js"
 
-export const getAllContacts = async (_, res) => {
-  const result = await contactsService.listContacts()
+const getAllContacts = async (_, res) => {
+  const result = await contactsServices.listContacts()
 
   res.json(result)
 }
 
-export const getOneContact = async (req, res) => {}
+const getOneContact = async (req, res) => {
+  const { id } = req.params
+  const result = await contactsServices.getContactById(id)
 
-export const deleteContact = async (req, res) => {}
+  if (!result) throw HttpError(404)
 
-export const createContact = async (req, res) => {}
+  res.json(result)
+}
 
-export const updateContact = async (req, res) => {}
+const deleteContact = async (req, res) => {
+  const { id } = req.params
+  const result = await contactsServices.removeContact(id)
+
+  if (!result) throw HttpError(404)
+
+  res.json(result)
+}
+
+const createContact = async (req, res) => {}
+
+const updateContact = async (req, res) => {}
 
 export default {
   getAllContacts: ctrlWrapper(getAllContacts),
-  getOneContact,
-  deleteContact,
-  createContact,
-  updateContact,
+  getOneContact: ctrlWrapper(getOneContact),
+  deleteContact: ctrlWrapper(deleteContact),
+  createContact: ctrlWrapper(createContact),
+  updateContact: ctrlWrapper(updateContact),
 }
