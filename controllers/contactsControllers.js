@@ -1,11 +1,24 @@
-import contactsService from "../services/contactsServices.js";
+import ctrlWrapper from "../decorators/ctrlWrapper.js"
+import contactsService from "../services/contactsServices.js"
 
-export const getAllContacts = (req, res) => {};
+export const getAllContacts = async (_, res) => {
+  const result = await contactsService.listContacts()
 
-export const getOneContact = (req, res) => {};
+  res.json(result)
+}
 
-export const deleteContact = (req, res) => {};
+export const getOneContact = async (req, res) => {}
 
-export const createContact = (req, res) => {};
+export const deleteContact = async (req, res) => {}
 
-export const updateContact = (req, res) => {};
+export const createContact = async (req, res) => {}
+
+export const updateContact = async (req, res) => {}
+
+export default {
+  getAllContacts: ctrlWrapper(getAllContacts),
+  getOneContact,
+  deleteContact,
+  createContact,
+  updateContact,
+}
