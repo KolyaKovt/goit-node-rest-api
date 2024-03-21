@@ -5,7 +5,7 @@ import contactsServices from "../services/contactsServices.js"
 const getAllContacts = async (_, res) => {
   const result = await contactsServices.listContacts()
 
-  res.json(result)
+  res.status(200).json(result)
 }
 
 const getOneContact = async (req, res) => {
@@ -14,7 +14,7 @@ const getOneContact = async (req, res) => {
 
   if (!result) throw HttpError(404)
 
-  res.json(result)
+  res.status(200).json(result)
 }
 
 const deleteContact = async (req, res) => {
@@ -23,12 +23,24 @@ const deleteContact = async (req, res) => {
 
   if (!result) throw HttpError(404)
 
-  res.json(result)
+  res.status(200).json(result)
 }
 
-const createContact = async (req, res) => {}
+const createContact = async (req, res) => {
+  const { name, email, phone } = req.body
 
-const updateContact = async (req, res) => {}
+  const contact = await contactsServices.addContact(name, email, phone)
+
+  res.status(201).json(contact)
+}
+
+const updateContact = async (req, res) => {
+  const contact = await contactsServices.updateContact(req.params.id, req.body)
+
+  if (!contact) throw HttpError(404)
+
+  res.status(200).json(contact)
+}
 
 export default {
   getAllContacts: ctrlWrapper(getAllContacts),

@@ -1,8 +1,12 @@
 import { readFile, writeFile } from "fs/promises"
 import path from "path"
-import * as nanoid from "nanoid"
+import { nanoid } from "nanoid"
 
-const contactsPath = path.resolve("b", "contacts.json")
+const contactsPath = path.resolve("db", "contacts.json")
+
+const updateContacts = async contacts => {
+  await writeFile(contactsPath, JSON.stringify(contacts, null, 2))
+}
 
 async function listContacts() {
   const res = await readFile(contactsPath, "utf8")
@@ -28,7 +32,8 @@ async function removeContact(contactId) {
   const updatedContacts = contacts.filter(contact => {
     return contact.id !== contactId
   })
-  await writeFile(contactsPath, JSON.stringify(updatedContacts))
+
+  await updateContacts(updatedContacts)
 
   return contactToRemove
 }
@@ -46,9 +51,27 @@ async function addContact(name, email, phone) {
 
   contacts.push(createdObj)
 
-  await writeFile(contactsPath, JSON.stringify(contacts, null, 2))
+  await updateContacts(contacts)
 
   return createdObj
+}
+
+const updateContact = async (id, contactData) => {
+  const constacts = listContacts()
+
+  let updatedContact = null
+
+  for (let i = 0; i < constacts.length; i++) {
+    if (constacts[i].id === id) {
+      updateContact = { ...constacts[i], ...contactData }
+      constacts[i] = updatedContact
+      break
+    }
+  }
+
+  await updateContacts(constacts)
+
+  return updatedContact
 }
 
 export default {
@@ -56,4 +79,5 @@ export default {
   getContactById,
   removeContact,
   addContact,
+  updateContact,
 }
