@@ -57,19 +57,20 @@ async function addContact(name, email, phone) {
 }
 
 const updateContact = async (id, contactData) => {
-  const constacts = listContacts()
+  const contacts = await listContacts()
 
   let updatedContact = null
 
-  for (let i = 0; i < constacts.length; i++) {
-    if (constacts[i].id === id) {
-      updateContact = { ...constacts[i], ...contactData }
-      constacts[i] = updatedContact
+  for (let i = 0; i < contacts.length; i++) {
+    if (contacts[i].id === id) {
+      updatedContact = { ...contacts[i], ...contactData }
+      contacts[i] = updatedContact
+      console.log(updateContact)
       break
     }
   }
 
-  await updateContacts(constacts)
+  await updateContacts(contacts)
 
   return updatedContact
 }

@@ -23,5 +23,5 @@ app.use((err, _, res, __) => {
 
 const PORT = 8080
 app.listen(PORT, () => {
-  console.log(`listening on: http://localhost:${PORT}/`)
+  console.log(`listening on: http://localhost:${PORT}`)
 })
