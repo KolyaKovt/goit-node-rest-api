@@ -3,6 +3,7 @@ import contactsControllers from "../controllers/contactsControllers.js"
 import {
   createContactSchema,
   updateContactSchema,
+  updateFavoriteContactSchema,
 } from "../schemas/contactsSchemas.js"
 import validateBody from "../decorators/validateBody.js"
 
@@ -24,6 +25,12 @@ contactsRouter.put(
   "/:id",
   validateBody(updateContactSchema),
   contactsControllers.updateContact
+)
+
+contactsRouter.patch(
+  "/:contactId/favorite",
+  validateBody(updateFavoriteContactSchema),
+  contactsControllers.updateFavoriteContact
 )
 
 export default contactsRouter

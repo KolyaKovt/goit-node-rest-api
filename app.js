@@ -1,8 +1,12 @@
 import express from "express"
 import morgan from "morgan"
 import cors from "cors"
+import mongoose from "mongoose"
+import "dotenv/config"
 
 import contactsRouter from "./routes/contactsRouter.js"
+
+const { DB_HOST, PORT = 8080 } = process.env
 
 const app = express()
 
@@ -21,7 +25,16 @@ app.use((err, _, res, __) => {
   res.status(status).json({ message })
 })
 
-const PORT = 8080
-app.listen(PORT, () => {
-  console.log(`listening on: http://localhost:${PORT}`)
-})
+mongoose
+  .connect(DB_HOST)
+  .then(() => {
+    console.log("Database connection successful")
+
+    app.listen(PORT, () => {
+      console.log(`listening on: http://localhost:${PORT}`)
+    })
+  })
+  .catch(err => {
+    console.log(err.message)
+    process.exit(1)
+  })
