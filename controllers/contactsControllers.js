@@ -43,7 +43,7 @@ const updateContact = async (req, res) => {
   res.status(200).json(contact)
 }
 
-const updateFavoriteContact = async (req, res) => {
+const updateStatusContact = async (req, res) => {
   const contact = await contactsServices.updateContact(
     req.params.contactId,
     req.body
@@ -60,5 +60,5 @@ export default {
   deleteContact: ctrlWrapper(deleteContact),
   createContact: ctrlWrapper(createContact),
   updateContact: ctrlWrapper(updateContact),
-  updateFavoriteContact: ctrlWrapper(updateFavoriteContact),
+  updateStatusContact: ctrlWrapper(updateStatusContact),
 }

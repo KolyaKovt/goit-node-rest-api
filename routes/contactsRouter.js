@@ -30,7 +30,7 @@ contactsRouter.put(
 contactsRouter.patch(
   "/:contactId/favorite",
   validateBody(updateFavoriteContactSchema),
-  contactsControllers.updateFavoriteContact
+  contactsControllers.updateStatusContact
 )
 
 export default contactsRouter
